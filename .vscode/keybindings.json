@@ -1,0 +1,14 @@
+[
+    {
+        "key": "ctrl+shift+f",
+        "command": "workbench.action.tasks.runTask",
+        "args": "Fix Const Issues",
+        "when": "editorTextFocus"
+    },
+    {
+        "key": "ctrl+alt+f",
+        "command": "workbench.action.tasks.runTask", 
+        "args": "Format Code",
+        "when": "editorTextFocus"
+    }
+]
