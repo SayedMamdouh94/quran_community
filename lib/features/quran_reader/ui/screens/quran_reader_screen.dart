@@ -395,7 +395,7 @@ class _QuranReaderScreenState extends State<QuranReaderScreen>
                               isDarkMode
                                   ? 'assets/svgs/darkframe.svg'
                                   : 'assets/svgs/newBorder.svg',
-                              fit: BoxFit.fill,
+                              fit: BoxFit.contain,
                             ),
                           ),
                         ),
@@ -558,7 +558,7 @@ class _QuranReaderScreenState extends State<QuranReaderScreen>
                                                               : 2.0)
                                                           : (isLandscape
                                                               ? 1.8
-                                                              : 1.95),
+                                                              : 2.2),
                                                       letterSpacing: 0.0,
                                                       wordSpacing: 0,
                                                       fontFamily:
