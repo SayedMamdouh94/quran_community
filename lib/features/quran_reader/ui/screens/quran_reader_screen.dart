@@ -182,6 +182,8 @@ class _QuranReaderScreenState extends State<QuranReaderScreen>
     final screenSize = MediaQuery.of(context).size;
     final isLandscape =
         MediaQuery.of(context).orientation == Orientation.landscape;
+    final isTablet = screenSize.shortestSide >=
+        600; // Detect tablets (iPad, Android tablets)
 
     return Scaffold(
       body: PageView.builder(
@@ -291,7 +293,7 @@ class _QuranReaderScreenState extends State<QuranReaderScreen>
                     children: [
                       // Back button and surah name
                       SizedBox(
-                        width: (screenSize.width * .27),
+                        width: screenSize.width * (isTablet ? 0.33 : 0.27),
                         child: Row(
                           children: [
                             IconButton(
@@ -343,7 +345,7 @@ class _QuranReaderScreenState extends State<QuranReaderScreen>
                       ),
                       // Frame and theme toggle buttons
                       SizedBox(
-                        width: (screenSize.width * .27),
+                        width: screenSize.width * (isTablet ? 0.33 : 0.27),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: [
@@ -401,7 +403,13 @@ class _QuranReaderScreenState extends State<QuranReaderScreen>
                         ),
                       // Text content - scaled down to fit inside frame borders
                       Transform.scale(
-                        scale: showFrame ? 0.85 : 1.0,
+                        scale: isLandscape
+                            ? 1.0
+                            : (showFrame
+                                ? (isTablet
+                                    ? 0.90
+                                    : 0.85) // Tablets: 0.90, Phones: 0.85
+                                : 1.0),
                         child: Scaffold(
                           backgroundColor: Colors.transparent,
                           floatingActionButton: highlightedAyah.isNotEmpty
@@ -553,29 +561,44 @@ class _QuranReaderScreenState extends State<QuranReaderScreen>
                                                               : Colors.black),
                                                       height: (index == 1 ||
                                                               index == 2)
-                                                          ? (isLandscape
-                                                              ? 1.8
-                                                              : 2.0)
-                                                          : (isLandscape
-                                                              ? 1.8
-                                                              : 2.2),
+                                                          ? (isTablet
+                                                              ? (isLandscape
+                                                                  ? 2.1
+                                                                  : 2.5)
+                                                              : (isLandscape
+                                                                  ? 1.8
+                                                                  : 2.0))
+                                                          : (isTablet
+                                                              ? (isLandscape
+                                                                  ? 1.9
+                                                                  : 2.3)
+                                                              : (isLandscape
+                                                                  ? 1.8
+                                                                  : 2.2)),
                                                       letterSpacing: 0.0,
                                                       wordSpacing: 0,
                                                       fontFamily:
                                                           "QCF_P${index.toString().padLeft(3, "0")}",
-                                                      fontSize: index == 1 ||
-                                                              index == 2
-                                                          ? 28.sp
-                                                          : index == 145 ||
-                                                                  index == 201
-                                                              ? index == 532 ||
+                                                      fontSize: isTablet
+                                                          ? (index == 1 ||
+                                                                  index == 2
+                                                              ? 32.0
+                                                              : 30.0)
+                                                          : (index == 1 ||
+                                                                  index == 2
+                                                              ? 28.sp
+                                                              : index == 145 ||
                                                                       index ==
-                                                                          533
-                                                                  ? 22.5.sp
-                                                                  : 22.4.sp
-                                                              : isLandscape
-                                                                  ? 24.sp
-                                                                  : 23.1.sp,
+                                                                          201
+                                                                  ? index == 532 ||
+                                                                          index ==
+                                                                              533
+                                                                      ? 22.5.sp
+                                                                      : 22.4.sp
+                                                                  : isLandscape
+                                                                      ? 24.sp
+                                                                      : 23.1
+                                                                          .sp),
                                                     ),
                                                   ));
                                                 }
