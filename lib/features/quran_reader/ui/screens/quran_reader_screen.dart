@@ -421,7 +421,7 @@ class _QuranReaderScreenState extends State<QuranReaderScreen>
                               ? 40
                               : (isSmallDevice
                                   ? 10.h
-                                  : 90), // Reduce frame height to match text
+                                  : 80), // Reduce frame height to match text
                           child: Transform.scale(
                             scale: isTablet
                                 ? 0.98
@@ -447,7 +447,7 @@ class _QuranReaderScreenState extends State<QuranReaderScreen>
                                         ? 0.88
                                         : (isVeryLargeDevice ? 0.86 : 0.8.r)))
                                 : (isSmallDevice
-                                    ? 0.95
+                                    ? 0.85
                                     : 1.0)), // Reduce scale for small devices even without frame
                         child: Scaffold(
                           backgroundColor: Colors.transparent,
@@ -502,7 +502,9 @@ class _QuranReaderScreenState extends State<QuranReaderScreen>
                               : null,
 
                           body: SingleChildScrollView(
-                            physics: const ClampingScrollPhysics(),
+                            physics: isSmallDevice
+                                ? const NeverScrollableScrollPhysics() // Disable scrolling on small devices
+                                : const ClampingScrollPhysics(),
                             child: Padding(
                               padding:
                                   const EdgeInsets.only(right: 12.0, left: 12),
@@ -607,7 +609,8 @@ class _QuranReaderScreenState extends State<QuranReaderScreen>
                                                               : isSmallDevice
                                                                   ? (isLandscape
                                                                       ? 2.7.h
-                                                                      : 2.0.h)
+                                                                      : 2
+                                                                          .h) // Reduced from 2.0.h
                                                                   : (isLandscape
                                                                       ? 2.5.h
                                                                       : 1.8.h))
@@ -618,7 +621,8 @@ class _QuranReaderScreenState extends State<QuranReaderScreen>
                                                               : isSmallDevice
                                                                   ? (isLandscape
                                                                       ? 3.0.h
-                                                                      : 2.5.h)
+                                                                      : 2.5
+                                                                          .h) // Reduced from 2.5.h
                                                                   : (isLandscape
                                                                       ? 2.8.h
                                                                       : 1.75
