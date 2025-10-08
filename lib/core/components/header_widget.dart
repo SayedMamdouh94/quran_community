@@ -21,7 +21,7 @@ class HeaderWidget extends StatelessWidget {
         MediaQuery.of(context).orientation == Orientation.landscape;
 
     // Larger sizes for landscape mode
-    final headerHeight = isLandscape ? 120.0 : 50.h;
+    final headerHeight = isLandscape ? 150.0 : 50.h;
     final textFontSize = isLandscape ? 12.0 : 5.sp;
     final surahNumberFontSize = isLandscape ? 40.0 : 22.sp;
     final horizontalPadding = isLandscape ? 40.0 : 15.7.w;
