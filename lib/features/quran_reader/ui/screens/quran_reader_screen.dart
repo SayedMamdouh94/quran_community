@@ -185,6 +185,13 @@ class _QuranReaderScreenState extends State<QuranReaderScreen>
     final isTablet = screenSize.shortestSide >=
         600; // Detect tablets (iPad, Android tablets)
 
+    // Calculate device size categories for responsive scaling
+    // 720x1280 physical pixels = ~360 logical pixels (at 2.0 density)
+    final screenWidth = screenSize.width;
+    final isSmallDevice =
+        screenWidth <= 360; // Small devices like 720x1280px screens
+    final isVeryLargeDevice = screenWidth > 450; // Pixel 8 Pro and larger
+
     return Scaffold(
       body: PageView.builder(
         reverse: true,
@@ -397,7 +404,9 @@ class _QuranReaderScreenState extends State<QuranReaderScreen>
                           child: Transform.scale(
                             scale: isTablet
                                 ? 0.98
-                                : 0.95, // Larger frame for tablets
+                                : (isSmallDevice
+                                    ? 0.90
+                                    : (isVeryLargeDevice ? 0.96 : 0.95)),
                             child: SvgPicture.asset(
                               isDarkMode
                                   ? 'assets/svgs/darkframe.svg'
@@ -413,7 +422,9 @@ class _QuranReaderScreenState extends State<QuranReaderScreen>
                             : (showFrame
                                 ? (isTablet
                                     ? 0.89
-                                    : 0.85) // Tablets: 0.90, Phones: 0.85
+                                    : (isSmallDevice
+                                        ? 0.80
+                                        : (isVeryLargeDevice ? 0.86 : 0.85)))
                                 : 1.0),
                         child: Scaffold(
                           backgroundColor: Colors.transparent,
@@ -570,16 +581,25 @@ class _QuranReaderScreenState extends State<QuranReaderScreen>
                                                               ? (isLandscape
                                                                   ? 1.5.h
                                                                   : 1.h)
-                                                              : (isLandscape
-                                                                  ? 2.5.h
-                                                                  : 1.8.h))
+                                                              : isSmallDevice
+                                                                  ? (isLandscape
+                                                                      ? 2.7.h
+                                                                      : 2.0.h)
+                                                                  : (isLandscape
+                                                                      ? 2.5.h
+                                                                      : 1.8.h))
                                                           : (isTablet
                                                               ? (isLandscape
                                                                   ? 1.6.h
                                                                   : 1.h)
-                                                              : (isLandscape
-                                                                  ? 2.8.h
-                                                                  : 1.75.h)),
+                                                              : isSmallDevice
+                                                                  ? (isLandscape
+                                                                      ? 3.0.h
+                                                                      : 2.h)
+                                                                  : (isLandscape
+                                                                      ? 2.8.h
+                                                                      : 1.75
+                                                                          .h)),
                                                       letterSpacing: 0.0,
                                                       wordSpacing: 0,
                                                       fontFamily:
