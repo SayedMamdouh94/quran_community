@@ -349,20 +349,23 @@ class _QuranReaderScreenState extends State<QuranReaderScreen>
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: [
-                            IconButton(
-                                onPressed: () {
-                                  setState(() {
-                                    showFrame = !showFrame;
-                                  });
-                                },
-                                icon: Icon(
-                                  showFrame
-                                      ? Icons.border_outer
-                                      : Icons.border_clear,
-                                  size: 24,
-                                  color:
-                                      isDarkMode ? Colors.white : Colors.black,
-                                )),
+                            // Hide frame button in landscape mode
+                            if (!isLandscape)
+                              IconButton(
+                                  onPressed: () {
+                                    setState(() {
+                                      showFrame = !showFrame;
+                                    });
+                                  },
+                                  icon: Icon(
+                                    showFrame
+                                        ? Icons.border_outer
+                                        : Icons.border_clear,
+                                    size: 24,
+                                    color: isDarkMode
+                                        ? Colors.white
+                                        : Colors.black,
+                                  )),
                             IconButton(
                                 onPressed: () {
                                   setState(() {
@@ -388,8 +391,8 @@ class _QuranReaderScreenState extends State<QuranReaderScreen>
                   child: Stack(
                     clipBehavior: Clip.none,
                     children: [
-                      // Background SVG Frame - conditionally shown
-                      if (showFrame)
+                      // Background SVG Frame - conditionally shown (hidden in landscape)
+                      if (showFrame && !isLandscape)
                         Positioned.fill(
                           child: Transform.scale(
                             scale: isTablet
