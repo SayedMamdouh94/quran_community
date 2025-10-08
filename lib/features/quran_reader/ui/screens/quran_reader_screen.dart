@@ -337,8 +337,8 @@ class _QuranReaderScreenState extends State<QuranReaderScreen>
                               color:
                                   isDarkMode ? Colors.grey[600]! : Colors.grey),
                         ),
-                        height: 20,
-                        width: 120,
+                        height: 20.h,
+                        width: 120.w,
                         child: Center(
                           child: Text(
                             "صفحة $index",
@@ -397,10 +397,19 @@ class _QuranReaderScreenState extends State<QuranReaderScreen>
                 Expanded(
                   child: Stack(
                     clipBehavior: Clip.none,
+                    alignment: Alignment.center,
                     children: [
                       // Background SVG Frame - conditionally shown (hidden in landscape)
                       if (showFrame && !isLandscape)
-                        Positioned.fill(
+                        Positioned(
+                          top: 15,
+                          left: 0,
+                          right: 0,
+                          bottom: isVeryLargeDevice
+                              ? 150
+                              : (isSmallDevice
+                                  ? 50
+                                  : 90), // Reduce frame height to match text
                           child: Transform.scale(
                             scale: isTablet
                                 ? 0.98
@@ -490,7 +499,7 @@ class _QuranReaderScreenState extends State<QuranReaderScreen>
                                       height: (screenSize.height * .15),
                                     ),
                                   SizedBox(
-                                    height: isTablet ? 15.h : 30.h,
+                                    height: isTablet ? 15.h : 5.h,
                                   ),
                                   Directionality(
                                       textDirection: m.TextDirection.rtl,
