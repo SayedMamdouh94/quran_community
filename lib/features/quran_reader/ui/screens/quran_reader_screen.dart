@@ -435,12 +435,12 @@ class _QuranReaderScreenState extends State<QuranReaderScreen>
                                         color: Colors.white,
                                         size: 16,
                                       ),
-                                      const SizedBox(width: 4),
+                                      SizedBox(width: 4.w),
                                       Text(
                                         "آية ${highlightedAyah.split('_')[1]} - سورة ${highlightedAyah.split('_')[0]}",
-                                        style: const TextStyle(
+                                        style: TextStyle(
                                           color: Colors.white,
-                                          fontSize: 12,
+                                          fontSize: 12.sp,
                                           fontWeight: FontWeight.w500,
                                         ),
                                       ),
@@ -473,8 +473,8 @@ class _QuranReaderScreenState extends State<QuranReaderScreen>
                                     SizedBox(
                                       height: (screenSize.height * .15),
                                     ),
-                                  const SizedBox(
-                                    height: 30,
+                                  SizedBox(
+                                    height: 30.h,
                                   ),
                                   Directionality(
                                       textDirection: m.TextDirection.rtl,
@@ -563,27 +563,30 @@ class _QuranReaderScreenState extends State<QuranReaderScreen>
                                                               index == 2)
                                                           ? (isTablet
                                                               ? (isLandscape
-                                                                  ? 2.1
-                                                                  : 2.5)
+                                                                  ? 1.h
+                                                                  : 1.h)
                                                               : (isLandscape
-                                                                  ? 1.8
-                                                                  : 2.0))
+                                                                  ? 2.h
+                                                                  : 1.8.h))
                                                           : (isTablet
                                                               ? (isLandscape
-                                                                  ? 1.9
-                                                                  : 2.3)
+                                                                  ? 1.6.h
+                                                                  : 1.h)
                                                               : (isLandscape
-                                                                  ? 1.8
-                                                                  : 2.2)),
+                                                                  ? 2.8.h
+                                                                  : 1.9.h)),
                                                       letterSpacing: 0.0,
                                                       wordSpacing: 0,
                                                       fontFamily:
                                                           "QCF_P${index.toString().padLeft(3, "0")}",
                                                       fontSize: isTablet
-                                                          ? (index == 1 ||
-                                                                  index == 2
-                                                              ? 32.0
-                                                              : 30.0)
+                                                          ? (isLandscape
+                                                              ? 23.7.sp
+                                                              // Tablet landscape
+                                                              : (index == 1 ||
+                                                                      index == 2
+                                                                  ? 29.0.sp
+                                                                  : 23.5.sp))
                                                           : (index == 1 ||
                                                                   index == 2
                                                               ? 28.sp

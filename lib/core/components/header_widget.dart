@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
 import 'package:quran/quran.dart';
 
 class HeaderWidget extends StatelessWidget {
@@ -18,14 +17,14 @@ class HeaderWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 50,
+      height: 50.h,
       child: Stack(
         children: [
           Center(
             child: Image.asset(
               "assets/images/888-02.png",
               width: MediaQuery.of(context).size.width,
-              height: 50,
+              height: 50.h,
             ),
           ),
           Padding(
@@ -37,7 +36,7 @@ class HeaderWidget extends StatelessWidget {
                   textAlign: TextAlign.center,
                   "اياتها\n${getVerseCount(e["surah"])}",
                   style: TextStyle(
-                      fontSize: 5,
+                      fontSize: 5.sp,
                       fontFamily: "UthmanicHafs13",
                       color: isDarkMode ? Colors.white : Colors.black),
                 ),
@@ -58,7 +57,7 @@ class HeaderWidget extends StatelessWidget {
                   "ترتيبها\n${e["surah"]}",
                   textAlign: TextAlign.center,
                   style: TextStyle(
-                      fontSize: 5,
+                      fontSize: 5.sp,
                       fontFamily: "UthmanicHafs13",
                       color: isDarkMode ? Colors.white : Colors.black),
                 ),
