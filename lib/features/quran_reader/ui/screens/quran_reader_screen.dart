@@ -392,12 +392,14 @@ class _QuranReaderScreenState extends State<QuranReaderScreen>
                       if (showFrame)
                         Positioned.fill(
                           child: Transform.scale(
-                            scale: 0.95,
+                            scale: isTablet
+                                ? 0.98
+                                : 0.95, // Larger frame for tablets
                             child: SvgPicture.asset(
                               isDarkMode
                                   ? 'assets/svgs/darkframe.svg'
                                   : 'assets/svgs/newBorder.svg',
-                              fit: BoxFit.contain,
+                              fit: isTablet ? BoxFit.fill : BoxFit.contain,
                             ),
                           ),
                         ),
@@ -407,7 +409,7 @@ class _QuranReaderScreenState extends State<QuranReaderScreen>
                             ? 1.0
                             : (showFrame
                                 ? (isTablet
-                                    ? 0.90
+                                    ? 0.89
                                     : 0.85) // Tablets: 0.90, Phones: 0.85
                                 : 1.0),
                         child: Scaffold(
@@ -444,7 +446,7 @@ class _QuranReaderScreenState extends State<QuranReaderScreen>
                                           fontWeight: FontWeight.w500,
                                         ),
                                       ),
-                                      const SizedBox(width: 4),
+                                      SizedBox(width: 4.w),
                                       GestureDetector(
                                         onTap: () {
                                           setState(() {
@@ -474,7 +476,7 @@ class _QuranReaderScreenState extends State<QuranReaderScreen>
                                       height: (screenSize.height * .15),
                                     ),
                                   SizedBox(
-                                    height: 30.h,
+                                    height: isTablet ? 15.h : 30.h,
                                   ),
                                   Directionality(
                                       textDirection: m.TextDirection.rtl,
@@ -563,11 +565,11 @@ class _QuranReaderScreenState extends State<QuranReaderScreen>
                                                               index == 2)
                                                           ? (isTablet
                                                               ? (isLandscape
-                                                                  ? 1.h
+                                                                  ? 1.5.h
                                                                   : 1.h)
                                                               : (isLandscape
                                                                   ? 2.h
-                                                                  : 1.8.h))
+                                                                  : 1.5.h))
                                                           : (isTablet
                                                               ? (isLandscape
                                                                   ? 1.6.h
@@ -585,11 +587,11 @@ class _QuranReaderScreenState extends State<QuranReaderScreen>
                                                               // Tablet landscape
                                                               : (index == 1 ||
                                                                       index == 2
-                                                                  ? 29.0.sp
+                                                                  ? 28.5.sp
                                                                   : 23.5.sp))
                                                           : (index == 1 ||
                                                                   index == 2
-                                                              ? 28.sp
+                                                              ? 28.5.sp
                                                               : index == 145 ||
                                                                       index ==
                                                                           201
