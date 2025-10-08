@@ -188,9 +188,14 @@ class _QuranReaderScreenState extends State<QuranReaderScreen>
     // Calculate device size categories for responsive scaling
     // 720x1280 physical pixels = ~360 logical pixels (at 2.0 density)
     final screenWidth = screenSize.width;
+
     final isSmallDevice =
         screenWidth <= 360; // Small devices like 720x1280px screens
-    final isVeryLargeDevice = screenWidth > 450; // Pixel 8 Pro and larger
+    final isMidDevice =
+        screenWidth > 360 && screenWidth <= 415; // Pixel 9a (~411px)
+    final isVeryLargeDevice =
+        screenWidth > 450; // Very large phones and tablets
+    // Pixel 8 Pro falls into the 415-450 range (not small, not mid, not very large)
 
     return Scaffold(
       body: PageView.builder(
@@ -414,20 +419,24 @@ class _QuranReaderScreenState extends State<QuranReaderScreen>
                       // Background SVG Frame - conditionally shown (hidden in landscape)
                       if (showFrame && !isLandscape)
                         Positioned(
-                          top: 15,
+                          top: isMidDevice ? 35.h : 15,
                           left: 5,
                           right: 5,
-                          bottom: isVeryLargeDevice
-                              ? 40
-                              : (isSmallDevice
-                                  ? 10.h
-                                  : 80), // Reduce frame height to match text
+                          bottom: isMidDevice
+                              ? 90
+                              : isVeryLargeDevice
+                                  ? 40
+                                  : (isSmallDevice
+                                      ? 10.h
+                                      : 80), // Reduce frame height to match text
                           child: Transform.scale(
                             scale: isTablet
                                 ? 0.98
                                 : (isSmallDevice
                                     ? 1
-                                    : (isVeryLargeDevice ? 0.96 : 0.90.r)),
+                                    : (isMidDevice
+                                        ? 0.97.r // Larger frame for Pixel 9a
+                                        : (isVeryLargeDevice ? 0.96 : 0.90.r))),
                             child: SvgPicture.asset(
                               isDarkMode
                                   ? 'assets/svgs/darkframe.svg'
@@ -445,9 +454,14 @@ class _QuranReaderScreenState extends State<QuranReaderScreen>
                                     ? 0.88
                                     : (isSmallDevice
                                         ? 0.88
-                                        : (isVeryLargeDevice ? 0.86 : 0.8.r)))
+                                        : (isMidDevice
+                                            ? 0.87
+                                                .r // Increased text scale for Pixel 9a
+                                            : (isVeryLargeDevice
+                                                ? 0.86
+                                                : 0.80.r))))
                                 : (isSmallDevice
-                                    ? 0.85
+                                    ? 0.95
                                     : 1.0)), // Reduce scale for small devices even without frame
                         child: Scaffold(
                           backgroundColor: Colors.transparent,
@@ -515,7 +529,15 @@ class _QuranReaderScreenState extends State<QuranReaderScreen>
                                       height: (screenSize.height * .15),
                                     ),
                                   SizedBox(
-                                    height: isTablet ? 15.h : 5.h,
+                                    height: isTablet
+                                        ? 15.h
+                                        : (isSmallDevice
+                                            ? 2.h
+                                            : (isMidDevice
+                                                ? 25.h // Pixel 9a only
+                                                : (isVeryLargeDevice
+                                                    ? 5.h // Very large devices
+                                                    : 8.h))), // Pixel 8 Pro (405-450px range)
                                   ),
                                   Directionality(
                                       textDirection: m.TextDirection.rtl,
@@ -639,21 +661,32 @@ class _QuranReaderScreenState extends State<QuranReaderScreen>
                                                                       index == 2
                                                                   ? 28.5.sp
                                                                   : 23.5.sp))
-                                                          : (index == 1 ||
-                                                                  index == 2
-                                                              ? 28.5.sp
-                                                              : index == 145 ||
-                                                                      index ==
-                                                                          201
-                                                                  ? index == 532 ||
-                                                                          index ==
-                                                                              533
-                                                                      ? 22.5.sp
-                                                                      : 22.4.sp
+                                                          : isMidDevice
+                                                              ? (index == 1 ||
+                                                                      index == 2
+                                                                  ? 28.5.sp
                                                                   : isLandscape
                                                                       ? 24.sp
-                                                                      : 23.1
-                                                                          .sp),
+                                                                      : 23
+                                                                          .sp) // Larger text for Pixel 9a
+                                                              : (index == 1 ||
+                                                                      index == 2
+                                                                  ? 28.5.sp
+                                                                  : index == 145 ||
+                                                                          index ==
+                                                                              201
+                                                                      ? index == 532 ||
+                                                                              index ==
+                                                                                  533
+                                                                          ? 22.5
+                                                                              .sp
+                                                                          : 22.4
+                                                                              .sp
+                                                                      : isLandscape
+                                                                          ? 24
+                                                                              .sp
+                                                                          : 23.1
+                                                                              .sp),
                                                     ),
                                                   ));
                                                 }
