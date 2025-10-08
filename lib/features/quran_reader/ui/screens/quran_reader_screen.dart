@@ -351,14 +351,20 @@ class _QuranReaderScreenState extends State<QuranReaderScreen>
                         ),
                       ),
                       // Frame and theme toggle buttons
-                      SizedBox(
-                        width: screenSize.width * (isTablet ? 0.33 : 0.27),
+                      Flexible(
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.end,
+                          mainAxisSize: MainAxisSize.min,
                           children: [
                             // Hide frame button in landscape mode
                             if (!isLandscape)
                               IconButton(
+                                  padding:
+                                      const EdgeInsets.symmetric(horizontal: 4),
+                                  constraints: const BoxConstraints(
+                                    minWidth: 32,
+                                    minHeight: 32,
+                                  ),
                                   onPressed: () {
                                     setState(() {
                                       showFrame = !showFrame;
@@ -368,12 +374,18 @@ class _QuranReaderScreenState extends State<QuranReaderScreen>
                                     showFrame
                                         ? Icons.border_outer
                                         : Icons.border_clear,
-                                    size: 24,
+                                    size: 20,
                                     color: isDarkMode
                                         ? Colors.white
                                         : Colors.black,
                                   )),
                             IconButton(
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 4),
+                                constraints: const BoxConstraints(
+                                  minWidth: 32,
+                                  minHeight: 32,
+                                ),
                                 onPressed: () {
                                   setState(() {
                                     isDarkMode = !isDarkMode;
@@ -383,7 +395,7 @@ class _QuranReaderScreenState extends State<QuranReaderScreen>
                                   isDarkMode
                                       ? Icons.light_mode
                                       : Icons.dark_mode,
-                                  size: 24,
+                                  size: 20,
                                   color:
                                       isDarkMode ? Colors.white : Colors.black,
                                 ))
@@ -406,7 +418,7 @@ class _QuranReaderScreenState extends State<QuranReaderScreen>
                           left: 0,
                           right: 0,
                           bottom: isVeryLargeDevice
-                              ? 150
+                              ? 40
                               : (isSmallDevice
                                   ? 50
                                   : 90), // Reduce frame height to match text
@@ -430,7 +442,7 @@ class _QuranReaderScreenState extends State<QuranReaderScreen>
                             ? 1.0
                             : (showFrame
                                 ? (isTablet
-                                    ? 0.89
+                                    ? 0.88
                                     : (isSmallDevice
                                         ? 0.80
                                         : (isVeryLargeDevice ? 0.86 : 0.85)))

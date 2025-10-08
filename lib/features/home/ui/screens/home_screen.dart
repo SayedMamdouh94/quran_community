@@ -1,11 +1,13 @@
 import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+
 import '../../../../core/constants/app_constants.dart';
 import '../../../quran/ui/screens/quran_sura_screen.dart';
 import '../widgets/home_app_bar_widget.dart';
-import '../widgets/home_welcome_widget.dart';
 import '../widgets/home_navigation_button_widget.dart';
+import '../widgets/home_welcome_widget.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -43,11 +45,26 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   void _navigateToQuranPage() {
+    debugPrint('Navigate to Quran page called');
+    debugPrint('Data loaded: ${_suraJsonData != null}');
+
     if (_suraJsonData != null) {
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => QuranSuraScreen(suraJsonData: _suraJsonData),
+      // Use a short delay to ensure the context is ready on tablets
+      Future.microtask(() {
+        if (mounted) {
+          Navigator.of(context, rootNavigator: false).push(
+            MaterialPageRoute(
+              builder: (context) =>
+                  QuranSuraScreen(suraJsonData: _suraJsonData),
+            ),
+          );
+        }
+      });
+    } else {
+      // Show error if data is not loaded
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('جاري تحميل البيانات، يرجى المحاولة مرة أخرى'),
         ),
       );
     }
@@ -68,21 +85,21 @@ class _HomeScreenState extends State<HomeScreen> {
               child: Column(
                 children: [
                   const SizedBox(height: QuranConstants.largePadding),
-                  
+
                   // Welcome Section
                   const HomeWelcomeWidget(),
-                  
+
                   const SizedBox(height: QuranConstants.largePadding * 2),
-                  
+
                   // Navigation Buttons
                   HomeNavigationButtonWidget(
                     title: "تصفح سور القرآن",
                     icon: Icons.list_rounded,
                     onPressed: _navigateToQuranPage,
                   ),
-                  
+
                   const SizedBox(height: QuranConstants.defaultPadding),
-                  
+
                   HomeNavigationButtonWidget(
                     title: "المصحف كاملاً",
                     icon: Icons.menu_book_rounded,
@@ -96,9 +113,9 @@ class _HomeScreenState extends State<HomeScreen> {
                     },
                     backgroundColor: QuranColors.primaryLight,
                   ),
-                  
+
                   const SizedBox(height: QuranConstants.defaultPadding),
-                  
+
                   HomeNavigationButtonWidget(
                     title: "البحث في القرآن",
                     icon: Icons.search_rounded,
@@ -112,9 +129,9 @@ class _HomeScreenState extends State<HomeScreen> {
                     },
                     backgroundColor: QuranColors.textSecondary,
                   ),
-                  
+
                   const SizedBox(height: QuranConstants.largePadding * 3),
-                  
+
                   // Footer
                   Padding(
                     padding: const EdgeInsets.symmetric(
@@ -130,7 +147,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       textDirection: TextDirection.rtl,
                     ),
                   ),
-                  
+
                   const SizedBox(height: QuranConstants.largePadding),
                 ],
               ),

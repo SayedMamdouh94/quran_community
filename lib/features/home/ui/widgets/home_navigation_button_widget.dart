@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import '../../../../core/constants/app_constants.dart';
 
 class HomeNavigationButtonWidget extends StatelessWidget {
@@ -21,7 +22,8 @@ class HomeNavigationButtonWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
-      margin: const EdgeInsets.symmetric(horizontal: QuranConstants.defaultPadding),
+      margin:
+          const EdgeInsets.symmetric(horizontal: QuranConstants.defaultPadding),
       child: ElevatedButton.icon(
         onPressed: onPressed,
         icon: Icon(
@@ -47,7 +49,10 @@ class HomeNavigationButtonWidget extends StatelessWidget {
             borderRadius: BorderRadius.circular(QuranConstants.borderRadius),
           ),
           elevation: 4,
-          shadowColor: (backgroundColor ?? QuranColors.primary).withOpacity(0.3),
+          shadowColor:
+              (backgroundColor ?? QuranColors.primary).withOpacity(0.3),
+          tapTargetSize: MaterialTapTargetSize
+              .padded, // Ensure proper tap target on tablets
         ),
       ),
     );
