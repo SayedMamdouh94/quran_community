@@ -415,19 +415,19 @@ class _QuranReaderScreenState extends State<QuranReaderScreen>
                       if (showFrame && !isLandscape)
                         Positioned(
                           top: 15,
-                          left: 0,
-                          right: 0,
+                          left: 5,
+                          right: 5,
                           bottom: isVeryLargeDevice
                               ? 40
                               : (isSmallDevice
-                                  ? 50
+                                  ? 10.h
                                   : 90), // Reduce frame height to match text
                           child: Transform.scale(
                             scale: isTablet
                                 ? 0.98
                                 : (isSmallDevice
-                                    ? 0.90
-                                    : (isVeryLargeDevice ? 0.96 : 0.95)),
+                                    ? 1
+                                    : (isVeryLargeDevice ? 0.96 : 0.90.r)),
                             child: SvgPicture.asset(
                               isDarkMode
                                   ? 'assets/svgs/darkframe.svg'
@@ -444,9 +444,11 @@ class _QuranReaderScreenState extends State<QuranReaderScreen>
                                 ? (isTablet
                                     ? 0.88
                                     : (isSmallDevice
-                                        ? 0.80
-                                        : (isVeryLargeDevice ? 0.86 : 0.85)))
-                                : 1.0),
+                                        ? 0.88
+                                        : (isVeryLargeDevice ? 0.86 : 0.8.r)))
+                                : (isSmallDevice
+                                    ? 0.95
+                                    : 1.0)), // Reduce scale for small devices even without frame
                         child: Scaffold(
                           backgroundColor: Colors.transparent,
                           floatingActionButton: highlightedAyah.isNotEmpty
@@ -616,7 +618,7 @@ class _QuranReaderScreenState extends State<QuranReaderScreen>
                                                               : isSmallDevice
                                                                   ? (isLandscape
                                                                       ? 3.0.h
-                                                                      : 2.h)
+                                                                      : 2.5.h)
                                                                   : (isLandscape
                                                                       ? 2.8.h
                                                                       : 1.75
