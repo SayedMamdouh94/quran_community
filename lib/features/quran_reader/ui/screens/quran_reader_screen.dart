@@ -571,8 +571,8 @@ class _QuranReaderScreenState extends State<QuranReaderScreen>
                                                                   ? 1.5.h
                                                                   : 1.h)
                                                               : (isLandscape
-                                                                  ? 2.h
-                                                                  : 1.5.h))
+                                                                  ? 2.5.h
+                                                                  : 1.8.h))
                                                           : (isTablet
                                                               ? (isLandscape
                                                                   ? 1.6.h
