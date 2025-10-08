@@ -423,7 +423,7 @@ class _QuranReaderScreenState extends State<QuranReaderScreen>
                           left: 5,
                           right: 5,
                           bottom: isMidDevice
-                              ? 90
+                              ? 55
                               : isVeryLargeDevice
                                   ? 40
                                   : (isSmallDevice
@@ -633,9 +633,17 @@ class _QuranReaderScreenState extends State<QuranReaderScreen>
                                                                       ? 2.7.h
                                                                       : 2
                                                                           .h) // Reduced from 2.0.h
-                                                                  : (isLandscape
-                                                                      ? 2.5.h
-                                                                      : 1.8.h))
+                                                                  : isMidDevice
+                                                                      ? (isLandscape
+                                                                          ? 2.5
+                                                                              .h
+                                                                          : 1.9
+                                                                              .h) // Pixel 9a - larger line height
+                                                                      : (isLandscape
+                                                                          ? 2.5
+                                                                              .h
+                                                                          : 1.8
+                                                                              .h))
                                                           : (isTablet
                                                               ? (isLandscape
                                                                   ? 1.6.h
@@ -645,10 +653,17 @@ class _QuranReaderScreenState extends State<QuranReaderScreen>
                                                                       ? 3.0.h
                                                                       : 2.5
                                                                           .h) // Reduced from 2.5.h
-                                                                  : (isLandscape
-                                                                      ? 2.8.h
-                                                                      : 1.75
-                                                                          .h)),
+                                                                  : isMidDevice
+                                                                      ? (isLandscape
+                                                                          ? 2.8
+                                                                              .h
+                                                                          : 1.9
+                                                                              .h) // Pixel 9a - larger line height for regular pages
+                                                                      : (isLandscape
+                                                                          ? 2.8
+                                                                              .h
+                                                                          : 1.75
+                                                                              .h)),
                                                       letterSpacing: 0.0,
                                                       wordSpacing: 0,
                                                       fontFamily:
