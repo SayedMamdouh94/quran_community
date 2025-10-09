@@ -342,14 +342,14 @@ class _QuranReaderScreenState extends State<QuranReaderScreen>
                               color:
                                   isDarkMode ? Colors.grey[600]! : Colors.grey),
                         ),
-                        height: 20.h,
-                        width: 120.w,
+                        height: isLandscape ? 30 : 20.h,
+                        width: isLandscape ? 100 : 120.w,
                         child: Center(
                           child: Text(
                             "صفحة $index",
                             style: TextStyle(
                               fontFamily: 'aldahabi',
-                              fontSize: 12,
+                              fontSize: isLandscape ? 14 : 12,
                               color: isDarkMode ? Colors.white : Colors.black,
                             ),
                           ),
