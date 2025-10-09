@@ -419,7 +419,7 @@ class _QuranReaderScreenState extends State<QuranReaderScreen>
                       // Background SVG Frame - conditionally shown (hidden in landscape)
                       if (showFrame && !isLandscape)
                         Positioned(
-                          top: isSmallDevice ? 5 : (isMidDevice ? 35.h : 15),
+                          top: isSmallDevice ? 5 : (isMidDevice ? 35.h : 30.h),
                           left: 5,
                           right: 5,
                           bottom: isMidDevice
@@ -428,7 +428,7 @@ class _QuranReaderScreenState extends State<QuranReaderScreen>
                                   ? 40
                                   : (isSmallDevice
                                       ? 10.h
-                                      : 80), // Reduce frame height to match text
+                                      : 40.h), // Reduce frame height to match text
                           child: Transform.scale(
                             scale: isTablet
                                 ? 0.98
@@ -537,7 +537,7 @@ class _QuranReaderScreenState extends State<QuranReaderScreen>
                                                 ? 25.h // Pixel 9a only
                                                 : (isVeryLargeDevice
                                                     ? 5.h // Very large devices
-                                                    : 8.h))), // Pixel 8 Pro (405-450px range)
+                                                    : 30.h))), // Pixel 8 Pro (405-450px range)
                                   ),
                                   Transform.translate(
                                     offset: isSmallDevice
