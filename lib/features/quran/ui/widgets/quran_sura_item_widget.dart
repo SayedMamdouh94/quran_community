@@ -100,9 +100,12 @@ class QuranSuraItemWidget extends StatelessWidget {
                       const SizedBox(height: 4),
                       Row(
                         children: [
-                          Text(
-                            suraNameEnglishTranslated,
-                            style: QuranTextStyles.suraSubtitle,
+                          Flexible(
+                            child: Text(
+                              suraNameEnglishTranslated,
+                              style: QuranTextStyles.suraSubtitle,
+                              overflow: TextOverflow.ellipsis,
+                            ),
                           ),
                           const SizedBox(width: QuranConstants.smallPadding),
                           Container(

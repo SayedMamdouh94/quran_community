@@ -419,7 +419,7 @@ class _QuranReaderScreenState extends State<QuranReaderScreen>
                       // Background SVG Frame - conditionally shown (hidden in landscape)
                       if (showFrame && !isLandscape)
                         Positioned(
-                          top: isMidDevice ? 35.h : 15,
+                          top: isSmallDevice ? 5 : (isMidDevice ? 35.h : 15),
                           left: 5,
                           right: 5,
                           bottom: isMidDevice
@@ -532,185 +532,191 @@ class _QuranReaderScreenState extends State<QuranReaderScreen>
                                     height: isTablet
                                         ? 15.h
                                         : (isSmallDevice
-                                            ? 2.h
+                                            ? 0 // No extra padding for small devices
                                             : (isMidDevice
                                                 ? 25.h // Pixel 9a only
                                                 : (isVeryLargeDevice
                                                     ? 5.h // Very large devices
                                                     : 8.h))), // Pixel 8 Pro (405-450px range)
                                   ),
-                                  Directionality(
-                                      textDirection: m.TextDirection.rtl,
-                                      child: Padding(
-                                        padding: const EdgeInsets.all(0.0),
-                                        child: SizedBox(
-                                          width: double.infinity,
-                                          child: RichText(
-                                            key: richTextKeys[index - 1],
-                                            textDirection: m.TextDirection.rtl,
-                                            textAlign: (index == 1 ||
-                                                    index == 2 ||
-                                                    index > 570)
-                                                ? TextAlign.center
-                                                : TextAlign.center,
-                                            softWrap: true,
-                                            locale: const Locale("ar"),
-                                            text: TextSpan(
-                                              style: TextStyle(
-                                                color: isDarkMode
-                                                    ? Colors.white
-                                                    : m.Colors.black,
-                                                fontSize: 23.sp.toDouble(),
-                                              ),
-                                              children: getCachedPageData(index)
-                                                  .expand((e) {
-                                                List<InlineSpan> spans = [];
-                                                for (var i = e["start"];
-                                                    i <= e["end"];
-                                                    i++) {
-                                                  // Header
-                                                  if (i == 1) {
-                                                    spans.add(WidgetSpan(
-                                                      child: HeaderWidget(
-                                                          e: e,
-                                                          jsonData:
-                                                              widget.jsonData,
-                                                          isDarkMode:
-                                                              isDarkMode),
-                                                    ));
-                                                    if (index != 187 &&
-                                                        index != 1) {
+                                  Transform.translate(
+                                    offset: isSmallDevice
+                                        ? Offset(0,
+                                            -5.h) // Move text up for small devices
+                                        : Offset.zero,
+                                    child: Directionality(
+                                        textDirection: m.TextDirection.rtl,
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(0.0),
+                                          child: SizedBox(
+                                            width: double.infinity,
+                                            child: RichText(
+                                              key: richTextKeys[index - 1],
+                                              textDirection:
+                                                  m.TextDirection.rtl,
+                                              textAlign: (index == 1 ||
+                                                      index == 2 ||
+                                                      index > 570)
+                                                  ? TextAlign.center
+                                                  : TextAlign.center,
+                                              softWrap: true,
+                                              locale: const Locale("ar"),
+                                              text: TextSpan(
+                                                style: TextStyle(
+                                                  color: isDarkMode
+                                                      ? Colors.white
+                                                      : m.Colors.black,
+                                                  fontSize: 23.sp.toDouble(),
+                                                ),
+                                                children:
+                                                    getCachedPageData(index)
+                                                        .expand((e) {
+                                                  List<InlineSpan> spans = [];
+                                                  for (var i = e["start"];
+                                                      i <= e["end"];
+                                                      i++) {
+                                                    // Header
+                                                    if (i == 1) {
                                                       spans.add(WidgetSpan(
-                                                        child: Basmallah(
-                                                            index: 0,
+                                                        child: HeaderWidget(
+                                                            e: e,
+                                                            jsonData:
+                                                                widget.jsonData,
                                                             isDarkMode:
                                                                 isDarkMode),
                                                       ));
+                                                      if (index != 187 &&
+                                                          index != 1) {
+                                                        spans.add(WidgetSpan(
+                                                          child: Basmallah(
+                                                              index: 0,
+                                                              isDarkMode:
+                                                                  isDarkMode),
+                                                        ));
+                                                      }
+                                                      if (index == 187) {
+                                                        spans.add(WidgetSpan(
+                                                          child: Container(
+                                                            height: 10.h,
+                                                          ),
+                                                        ));
+                                                      }
                                                     }
-                                                    if (index == 187) {
-                                                      spans.add(WidgetSpan(
-                                                        child: Container(
-                                                          height: 10.h,
-                                                        ),
-                                                      ));
-                                                    }
+
+                                                    // Verses
+                                                    final ayahId =
+                                                        "${e["surah"]}_$i";
+                                                    spans.add(TextSpan(
+                                                      recognizer:
+                                                          LongPressGestureRecognizer()
+                                                            ..onLongPress = () {
+                                                              // Add haptic feedback for long press
+                                                              HapticFeedback
+                                                                  .mediumImpact();
+
+                                                              // Toggle bookmark
+                                                              toggleBookmark(
+                                                                  ayahId);
+                                                            },
+                                                      text: i == e["start"]
+                                                          ? "${getCachedVerseText(e["surah"], i).substring(0, 1)}\u200A${getCachedVerseText(e["surah"], i).substring(1)}"
+                                                          : getCachedVerseText(
+                                                              e["surah"], i),
+                                                      style: TextStyle(
+                                                        color: bookmarkedAyahs
+                                                                .contains(
+                                                                    ayahId)
+                                                            ? QuranColors
+                                                                .primary
+                                                            : (isDarkMode
+                                                                ? Colors.white
+                                                                : Colors.black),
+                                                        height: (index == 1 ||
+                                                                index == 2)
+                                                            ? (isTablet
+                                                                ? (isLandscape
+                                                                    ? 1.5.h
+                                                                    : 1.h)
+                                                                : isSmallDevice
+                                                                    ? (isLandscape
+                                                                        ? 2.7.h
+                                                                        : 2
+                                                                            .h) // Reduced from 2.0.h
+                                                                    : isMidDevice
+                                                                        ? (isLandscape
+                                                                            ? 2.5
+                                                                                .h
+                                                                            : 1.9
+                                                                                .h) // Pixel 9a - larger line height
+                                                                        : (isLandscape
+                                                                            ? 2.5
+                                                                                .h
+                                                                            : 1.8
+                                                                                .h))
+                                                            : (isTablet
+                                                                ? (isLandscape
+                                                                    ? 1.6.h
+                                                                    : 1.h)
+                                                                : isSmallDevice
+                                                                    ? (isLandscape
+                                                                        ? 3.0.h
+                                                                        : 2.5
+                                                                            .h) // Reduced from 2.5.h
+                                                                    : isMidDevice
+                                                                        ? (isLandscape
+                                                                            ? 2.8
+                                                                                .h
+                                                                            : 1.9
+                                                                                .h) // Pixel 9a - larger line height for regular pages
+                                                                        : (isLandscape
+                                                                            ? 2.8.h
+                                                                            : 1.75.h)),
+                                                        letterSpacing: 0.0,
+                                                        wordSpacing: 0,
+                                                        fontFamily:
+                                                            "QCF_P${index.toString().padLeft(3, "0")}",
+                                                        fontSize: isTablet
+                                                            ? (isLandscape
+                                                                ? 23.7.sp
+                                                                // Tablet landscape
+                                                                : (index == 1 ||
+                                                                        index ==
+                                                                            2
+                                                                    ? 28.5.sp
+                                                                    : 23.5.sp))
+                                                            : isMidDevice
+                                                                ? (index == 1 ||
+                                                                        index ==
+                                                                            2
+                                                                    ? 28.5.sp
+                                                                    : isLandscape
+                                                                        ? 24.sp
+                                                                        : 23
+                                                                            .sp) // Larger text for Pixel 9a
+                                                                : (index == 1 ||
+                                                                        index ==
+                                                                            2
+                                                                    ? 28.5.sp
+                                                                    : index == 145 ||
+                                                                            index ==
+                                                                                201
+                                                                        ? index == 532 ||
+                                                                                index == 533
+                                                                            ? 22.5.sp
+                                                                            : 22.4.sp
+                                                                        : isLandscape
+                                                                            ? 24.sp
+                                                                            : 23.1.sp),
+                                                      ),
+                                                    ));
                                                   }
-
-                                                  // Verses
-                                                  final ayahId =
-                                                      "${e["surah"]}_$i";
-                                                  spans.add(TextSpan(
-                                                    recognizer:
-                                                        LongPressGestureRecognizer()
-                                                          ..onLongPress = () {
-                                                            // Add haptic feedback for long press
-                                                            HapticFeedback
-                                                                .mediumImpact();
-
-                                                            // Toggle bookmark
-                                                            toggleBookmark(
-                                                                ayahId);
-                                                          },
-                                                    text: i == e["start"]
-                                                        ? "${getCachedVerseText(e["surah"], i).substring(0, 1)}\u200A${getCachedVerseText(e["surah"], i).substring(1)}"
-                                                        : getCachedVerseText(
-                                                            e["surah"], i),
-                                                    style: TextStyle(
-                                                      color: bookmarkedAyahs
-                                                              .contains(ayahId)
-                                                          ? QuranColors.primary
-                                                          : (isDarkMode
-                                                              ? Colors.white
-                                                              : Colors.black),
-                                                      height: (index == 1 ||
-                                                              index == 2)
-                                                          ? (isTablet
-                                                              ? (isLandscape
-                                                                  ? 1.5.h
-                                                                  : 1.h)
-                                                              : isSmallDevice
-                                                                  ? (isLandscape
-                                                                      ? 2.7.h
-                                                                      : 2
-                                                                          .h) // Reduced from 2.0.h
-                                                                  : isMidDevice
-                                                                      ? (isLandscape
-                                                                          ? 2.5
-                                                                              .h
-                                                                          : 1.9
-                                                                              .h) // Pixel 9a - larger line height
-                                                                      : (isLandscape
-                                                                          ? 2.5
-                                                                              .h
-                                                                          : 1.8
-                                                                              .h))
-                                                          : (isTablet
-                                                              ? (isLandscape
-                                                                  ? 1.6.h
-                                                                  : 1.h)
-                                                              : isSmallDevice
-                                                                  ? (isLandscape
-                                                                      ? 3.0.h
-                                                                      : 2.5
-                                                                          .h) // Reduced from 2.5.h
-                                                                  : isMidDevice
-                                                                      ? (isLandscape
-                                                                          ? 2.8
-                                                                              .h
-                                                                          : 1.9
-                                                                              .h) // Pixel 9a - larger line height for regular pages
-                                                                      : (isLandscape
-                                                                          ? 2.8
-                                                                              .h
-                                                                          : 1.75
-                                                                              .h)),
-                                                      letterSpacing: 0.0,
-                                                      wordSpacing: 0,
-                                                      fontFamily:
-                                                          "QCF_P${index.toString().padLeft(3, "0")}",
-                                                      fontSize: isTablet
-                                                          ? (isLandscape
-                                                              ? 23.7.sp
-                                                              // Tablet landscape
-                                                              : (index == 1 ||
-                                                                      index == 2
-                                                                  ? 28.5.sp
-                                                                  : 23.5.sp))
-                                                          : isMidDevice
-                                                              ? (index == 1 ||
-                                                                      index == 2
-                                                                  ? 28.5.sp
-                                                                  : isLandscape
-                                                                      ? 24.sp
-                                                                      : 23
-                                                                          .sp) // Larger text for Pixel 9a
-                                                              : (index == 1 ||
-                                                                      index == 2
-                                                                  ? 28.5.sp
-                                                                  : index == 145 ||
-                                                                          index ==
-                                                                              201
-                                                                      ? index == 532 ||
-                                                                              index ==
-                                                                                  533
-                                                                          ? 22.5
-                                                                              .sp
-                                                                          : 22.4
-                                                                              .sp
-                                                                      : isLandscape
-                                                                          ? 24
-                                                                              .sp
-                                                                          : 23.1
-                                                                              .sp),
-                                                    ),
-                                                  ));
-                                                }
-                                                return spans;
-                                              }).toList(),
+                                                  return spans;
+                                                }).toList(),
+                                              ),
                                             ),
                                           ),
-                                        ),
-                                      ))
+                                        )),
+                                  ), // Close Transform.translate
                                 ],
                               ), // Close Column
                             ), // Close Padding
