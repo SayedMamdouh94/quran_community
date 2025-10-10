@@ -518,9 +518,9 @@ class _QuranReaderScreenState extends State<QuranReaderScreen>
                               : null,
 
                           body: SingleChildScrollView(
-                            physics: isSmallDevice
-                                ? const NeverScrollableScrollPhysics() // Disable scrolling on small devices
-                                : const ClampingScrollPhysics(),
+                            // physics: isSmallDevice
+                            //     ? const NeverScrollableScrollPhysics() // Disable scrolling on small devices
+                            //     : const ClampingScrollPhysics(),
                             child: Padding(
                               padding:
                                   const EdgeInsets.only(right: 12.0, left: 12),
@@ -670,7 +670,7 @@ class _QuranReaderScreenState extends State<QuranReaderScreen>
                                                                 : isSmallDevice
                                                                     ? (isLandscape
                                                                         ? 3.0.h
-                                                                        : 2.5
+                                                                        : 2.35
                                                                             .h) // Reduced from 2.5.h
                                                                     : isMidDevice
                                                                         ? (isLandscape
@@ -703,20 +703,30 @@ class _QuranReaderScreenState extends State<QuranReaderScreen>
                                                                         ? 24.sp
                                                                         : 23
                                                                             .sp) // Larger text for Pixel 9a
-                                                                : (index == 1 ||
-                                                                        index ==
-                                                                            2
-                                                                    ? 28.5.sp
-                                                                    : index == 145 ||
+                                                                : isSmallDevice
+                                                                    ? (index == 1 ||
                                                                             index ==
-                                                                                201
-                                                                        ? index == 532 ||
-                                                                                index == 533
-                                                                            ? 22.5.sp
-                                                                            : 22.4.sp
+                                                                                2
+                                                                        ? 28.5
+                                                                            .sp
                                                                         : isLandscape
-                                                                            ? 24.sp
-                                                                            : 23.1.sp),
+                                                                            ? 24
+                                                                                .sp
+                                                                            : 22.5
+                                                                                .sp)
+                                                                    : (index == 1 ||
+                                                                            index ==
+                                                                                2
+                                                                        ? 28.5
+                                                                            .sp
+                                                                        : index == 145 ||
+                                                                                index == 201
+                                                                            ? index == 532 || index == 533
+                                                                                ? 22.5.sp
+                                                                                : 22.4.sp
+                                                                            : isLandscape
+                                                                                ? 24.sp
+                                                                                : 23.1.sp),
                                                       ),
                                                     ));
                                                   }
