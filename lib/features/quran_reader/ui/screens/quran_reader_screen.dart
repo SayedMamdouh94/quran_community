@@ -426,9 +426,13 @@ class _QuranReaderScreenState extends State<QuranReaderScreen>
                       // Background SVG Frame - conditionally shown (hidden in landscape)
                       if (showFrame && !isLandscape)
                         Positioned(
-                          top: isSmallDevice
-                              ? 5
-                              : (isMidDevice ? 35.h : (isTablet ? 15.h : 30.h)),
+                          top: isLargeTablet
+                              ? 35.h
+                              : isSmallDevice
+                                  ? 5
+                                  : (isMidDevice
+                                      ? 35.h
+                                      : (isTablet ? 15.h : 30.h)),
                           left: 5,
                           right: 5,
                           bottom: isMidDevice
@@ -439,13 +443,18 @@ class _QuranReaderScreenState extends State<QuranReaderScreen>
                                       ? 10.h
                                       : 40.h), // Reduce frame height to match text
                           child: Transform.scale(
-                            scale: isTablet
-                                ? 0.98
-                                : (isSmallDevice
-                                    ? 1
-                                    : (isMidDevice
-                                        ? 0.97.r // Larger frame for Pixel 9a
-                                        : (isVeryLargeDevice ? 0.96 : 0.90.r))),
+                            scale: isLargeTablet
+                                ? 0.6.r
+                                : isTablet
+                                    ? 0.98
+                                    : (isSmallDevice
+                                        ? 1
+                                        : (isMidDevice
+                                            ? 0.97
+                                                .r // Larger frame for Pixel 9a
+                                            : (isVeryLargeDevice
+                                                ? 0.96
+                                                : 0.90.r))),
                             child: SvgPicture.asset(
                               isDarkMode
                                   ? 'assets/svgs/darkframe.svg'
@@ -525,9 +534,6 @@ class _QuranReaderScreenState extends State<QuranReaderScreen>
                               : null,
 
                           body: SingleChildScrollView(
-                            // physics: isSmallDevice
-                            //     ? const NeverScrollableScrollPhysics() // Disable scrolling on small devices
-                            //     : const ClampingScrollPhysics(),
                             child: Padding(
                               padding:
                                   const EdgeInsets.only(right: 12.0, left: 12),
