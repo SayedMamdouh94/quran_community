@@ -185,6 +185,13 @@ class _QuranReaderScreenState extends State<QuranReaderScreen>
     final isTablet = screenSize.shortestSide >=
         600; // Detect tablets (iPad, Android tablets)
 
+    // Detect large tablets (iPad Pro 13-inch, iPad Pro 12.9-inch, etc.)
+    // iPad Pro 13" has dimensions: 1032 x 1376 logical pixels
+    // iPad Pro 12.9" has dimensions: 1024 x 1366 logical pixels
+    final isLargeTablet = isTablet &&
+        (screenSize.longestSide > 1100 ||
+            screenSize.shortestSide > 800); // CUSTOM FLAG for large tablets
+
     // Calculate device size categories for responsive scaling
     // 720x1280 physical pixels = ~360 logical pixels (at 2.0 density)
     final screenWidth = screenSize.width;
@@ -663,47 +670,48 @@ class _QuranReaderScreenState extends State<QuranReaderScreen>
                                                                                 .h
                                                                             : 1.8
                                                                                 .h))
-                                                            : (isTablet
+                                                            : (isLargeTablet
                                                                 ? (isLandscape
                                                                     ? 1.6.h
                                                                     : 1.h)
-                                                                : isSmallDevice
+                                                                : (isTablet
                                                                     ? (isLandscape
-                                                                        ? 3.0.h
-                                                                        : 2.35
-                                                                            .h) // Reduced from 2.5.h
-                                                                    : isMidDevice
+                                                                        ? 1.6.h
+                                                                        : 1.h)
+                                                                    : isSmallDevice
                                                                         ? (isLandscape
-                                                                            ? 2.8
+                                                                            ? 3.0
                                                                                 .h
-                                                                            : 1.9
-                                                                                .h) // Pixel 9a - larger line height for regular pages
-                                                                        : (isLandscape
-                                                                            ? 2.8.h
-                                                                            : 1.75.h)),
+                                                                            : 2.35
+                                                                                .h) // Reduced from 2.5.h
+                                                                        : isMidDevice
+                                                                            ? (isLandscape
+                                                                                ? 2.8.h
+                                                                                : 1.9.h) // Pixel 9a - larger line height for regular pages
+                                                                            : (isLandscape ? 2.8.h : 1.75.h))),
                                                         letterSpacing: 0.0,
                                                         wordSpacing: 0,
                                                         fontFamily:
                                                             "QCF_P${index.toString().padLeft(3, "0")}",
-                                                        fontSize: isTablet
-                                                            ? (isLandscape
-                                                                ? 23.7.sp
-                                                                // Tablet landscape
-                                                                : (index == 1 ||
-                                                                        index ==
-                                                                            2
-                                                                    ? 28.5.sp
-                                                                    : 23.5.sp))
-                                                            : isMidDevice
-                                                                ? (index == 1 ||
-                                                                        index ==
-                                                                            2
-                                                                    ? 28.5.sp
-                                                                    : isLandscape
-                                                                        ? 24.sp
-                                                                        : 23
-                                                                            .sp) // Larger text for Pixel 9a
-                                                                : isSmallDevice
+                                                        fontSize: isLargeTablet
+                                                            ? (index == 1 ||
+                                                                    index == 2
+                                                                ? 28.5.sp
+                                                                : isLandscape
+                                                                    ? 24.sp
+                                                                    : 24.sp)
+                                                            : isTablet
+                                                                ? (isLandscape
+                                                                    ? 23.7.sp
+                                                                    // Tablet landscape
+                                                                    : (index == 1 ||
+                                                                            index ==
+                                                                                2
+                                                                        ? 28.5
+                                                                            .sp
+                                                                        : 23.5
+                                                                            .sp))
+                                                                : isMidDevice
                                                                     ? (index == 1 ||
                                                                             index ==
                                                                                 2
@@ -712,21 +720,24 @@ class _QuranReaderScreenState extends State<QuranReaderScreen>
                                                                         : isLandscape
                                                                             ? 24
                                                                                 .sp
-                                                                            : 22.5
-                                                                                .sp)
-                                                                    : (index == 1 ||
-                                                                            index ==
-                                                                                2
-                                                                        ? 28.5
-                                                                            .sp
-                                                                        : index == 145 ||
-                                                                                index == 201
-                                                                            ? index == 532 || index == 533
-                                                                                ? 22.5.sp
-                                                                                : 22.4.sp
+                                                                            : 23
+                                                                                .sp) // Larger text for Pixel 9a
+                                                                    : isSmallDevice
+                                                                        ? (index == 1 ||
+                                                                                index == 2
+                                                                            ? 28.5.sp
                                                                             : isLandscape
                                                                                 ? 24.sp
-                                                                                : 23.1.sp),
+                                                                                : 22.5.sp)
+                                                                        : (index == 1 || index == 2
+                                                                            ? 28.5.sp
+                                                                            : index == 145 || index == 201
+                                                                                ? index == 532 || index == 533
+                                                                                    ? 22.5.sp
+                                                                                    : 22.4.sp
+                                                                                : isLandscape
+                                                                                    ? 24.sp
+                                                                                    : 23.1.sp),
                                                       ),
                                                     ));
                                                   }
