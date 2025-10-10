@@ -419,7 +419,9 @@ class _QuranReaderScreenState extends State<QuranReaderScreen>
                       // Background SVG Frame - conditionally shown (hidden in landscape)
                       if (showFrame && !isLandscape)
                         Positioned(
-                          top: isSmallDevice ? 5 : (isMidDevice ? 35.h : 30.h),
+                          top: isSmallDevice
+                              ? 5
+                              : (isMidDevice ? 35.h : (isTablet ? 15.h : 30.h)),
                           left: 5,
                           right: 5,
                           bottom: isMidDevice
@@ -577,14 +579,22 @@ class _QuranReaderScreenState extends State<QuranReaderScreen>
                                                       i++) {
                                                     // Header
                                                     if (i == 1) {
-                                                      spans.add(WidgetSpan(
-                                                        child: HeaderWidget(
-                                                            e: e,
-                                                            jsonData:
-                                                                widget.jsonData,
-                                                            isDarkMode:
-                                                                isDarkMode),
-                                                      ));
+                                                      // ═══════════════════════════════════════════════════════════
+                                                      // 🔧 CUSTOM EDIT #1: Skip header for Surah 4 on page 77
+                                                      // Purpose: Move Surah 4 header to end of page 76
+                                                      // The Basmallah will still render on page 77
+                                                      // ═══════════════════════════════════════════════════════════
+                                                      if (!(index == 77 &&
+                                                          e["surah"] == 4)) {
+                                                        spans.add(WidgetSpan(
+                                                          child: HeaderWidget(
+                                                              e: e,
+                                                              jsonData: widget
+                                                                  .jsonData,
+                                                              isDarkMode:
+                                                                  isDarkMode),
+                                                        ));
+                                                      }
                                                       if (index != 187 &&
                                                           index != 1) {
                                                         spans.add(WidgetSpan(
@@ -710,6 +720,25 @@ class _QuranReaderScreenState extends State<QuranReaderScreen>
                                                       ),
                                                     ));
                                                   }
+
+                                                  // ═══════════════════════════════════════════════════════════
+                                                  // 🔧 CUSTOM EDIT #2: Add Surah 4 header at end of page 76
+                                                  // Purpose: Display Surah An-Nisa header at bottom of page 76
+                                                  // Condition: Only when at end of Surah 3 (verse 200) on page 76
+                                                  // ═══════════════════════════════════════════════════════════
+                                                  if (index == 76 &&
+                                                      e["surah"] == 3 &&
+                                                      e["end"] == 200) {
+                                                    spans.add(WidgetSpan(
+                                                      child: HeaderWidget(
+                                                          e: const {"surah": 4},
+                                                          jsonData:
+                                                              widget.jsonData,
+                                                          isDarkMode:
+                                                              isDarkMode),
+                                                    ));
+                                                  }
+
                                                   return spans;
                                                 }).toList(),
                                               ),

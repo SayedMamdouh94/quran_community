@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class Basmallah extends StatefulWidget {
   final int index;
@@ -17,10 +18,10 @@ class _BasmallahState extends State<Basmallah> {
       width: screenSize.width,
       child: Padding(
         padding: EdgeInsets.only(
-            left: (screenSize.width * .2),
-            right: (screenSize.width * .2),
-            top: 8,
-            bottom: 2),
+            left: (screenSize.width * .2.h),
+            right: (screenSize.width * .2.h),
+            top: 0,
+            bottom: 0.h),
         child: Image.asset(
           "assets/images/Basmala.png",
           color: widget.isDarkMode ? Colors.white : Colors.black,
