@@ -469,7 +469,7 @@ class _QuranReaderScreenState extends State<QuranReaderScreen>
                             ? 1.0
                             : (showFrame
                                 ? (isTablet
-                                    ? 0.88
+                                    ? 0.5.r
                                     : (isSmallDevice
                                         ? 0.88
                                         : (isMidDevice
@@ -480,7 +480,9 @@ class _QuranReaderScreenState extends State<QuranReaderScreen>
                                                 : 0.80.r))))
                                 : (isSmallDevice
                                     ? 0.95
-                                    : 1.0)), // Reduce scale for small devices even without frame
+                                    : isTablet
+                                        ? 0.58.r
+                                        : 1.0)), // Reduce scale for small devices even without frame
                         child: Scaffold(
                           backgroundColor: Colors.transparent,
                           floatingActionButton: highlightedAyah.isNotEmpty
@@ -597,8 +599,12 @@ class _QuranReaderScreenState extends State<QuranReaderScreen>
                                                       // Purpose: Move Surah 4 header to end of page 76
                                                       // The Basmallah will still render on page 77
                                                       // ═══════════════════════════════════════════════════════════
-                                                      if (!(index == 77 &&
-                                                          e["surah"] == 4)) {
+                                                      if (!((index == 77 &&
+                                                              e["surah"] ==
+                                                                  4)) &&
+                                                          (!(index == 342 &&
+                                                              e["surah"] ==
+                                                                  23))) {
                                                         spans.add(WidgetSpan(
                                                           child: HeaderWidget(
                                                               e: e,
@@ -608,6 +614,7 @@ class _QuranReaderScreenState extends State<QuranReaderScreen>
                                                                   isDarkMode),
                                                         ));
                                                       }
+
                                                       if (index != 187 &&
                                                           index != 1) {
                                                         spans.add(WidgetSpan(
@@ -726,7 +733,7 @@ class _QuranReaderScreenState extends State<QuranReaderScreen>
                                                                         : isLandscape
                                                                             ? 24
                                                                                 .sp
-                                                                            : 23
+                                                                            : 22.7
                                                                                 .sp) // Larger text for Pixel 9a
                                                                     : isSmallDevice
                                                                         ? (index == 1 ||
@@ -759,6 +766,20 @@ class _QuranReaderScreenState extends State<QuranReaderScreen>
                                                     spans.add(WidgetSpan(
                                                       child: HeaderWidget(
                                                           e: const {"surah": 4},
+                                                          jsonData:
+                                                              widget.jsonData,
+                                                          isDarkMode:
+                                                              isDarkMode),
+                                                    ));
+                                                  }
+                                                  if (index == 341 &&
+                                                      e["surah"] == 22 &&
+                                                      e["end"] == 78) {
+                                                    spans.add(WidgetSpan(
+                                                      child: HeaderWidget(
+                                                          e: const {
+                                                            "surah": 23
+                                                          },
                                                           jsonData:
                                                               widget.jsonData,
                                                           isDarkMode:
